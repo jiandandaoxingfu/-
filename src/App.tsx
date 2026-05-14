@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, OrthographicCamera, Environment, Grid, Center, ContactShadows, Edges } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, OrthographicCamera, Grid, Center, ContactShadows, Edges } from '@react-three/drei';
 import { motion as motion2d, AnimatePresence } from 'motion/react';
 import { Box, ChevronRight, RotateCcw, Eye, Layout, CheckCircle2, Info, ArrowRight, MousePointer2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -221,10 +221,9 @@ function Scene({ cubes, onGridClick, selectedCell }: {
 }) {
   return (
     <>
-      <ambientLight intensity={1.0} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
-      <directionalLight position={[-5, 8, -5]} intensity={0.5} />
-      <Environment preset="city" />
+      <ambientLight intensity={1.5} />
+      <pointLight position={[10, 10, 10]} intensity={2.0} castShadow />
+      <directionalLight position={[-5, 8, -5]} intensity={1.0} />
 
       <group>
         {/* Axes Helper */}
@@ -437,7 +436,7 @@ function CameraManager({ view }: { view: '3d' | 'front' | 'right' | 'top' }) {
         makeDefault
         onStart={() => setTransitionQueue([])}
         enablePan={false}
-        enableRotate={view === '3d'}
+        enableRotate={true}
         minDistance={3}
         maxDistance={25}
       />
@@ -451,7 +450,7 @@ export default function App() {
   const [cubes, setCubes] = useState<GridPos[]>([]);
   const [stageIndex, setStageIndex] = useState(0); 
   const [mode, setMode] = useState<'select' | 'play'>('select');
-  const [cameraView, setCameraView] = useState<'3d' | 'front' | 'right' | 'top'>('3d');
+  const [cameraView, setCameraView] = useState<'front' | 'right' | 'top'>('front');
   
   const [selectedFront, setSelectedFront] = useState<number[] | null>(null);
   const [selectedRight, setSelectedRight] = useState<number[] | null>(null);
@@ -595,7 +594,7 @@ export default function App() {
     setSelectedFront(null);
     setSelectedRight(null);
     setSelectedTop(null);
-    setCameraView('3d');
+    setCameraView('front');
   };
 
   const targetViewData = useMemo(() => {
@@ -652,7 +651,6 @@ export default function App() {
 
           <div className="absolute top-6 right-6 flex bg-white/80 backdrop-blur-md p-1 rounded-2xl border border-slate-200 z-50 shadow-lg">
             {[
-              { id: '3d', label: '3D', icon: <Layout size={14} /> },
               { id: 'front', label: '正视', icon: <Eye size={14} /> },
               { id: 'right', label: '右视', icon: <Eye size={14} /> },
               { id: 'top', label: '俯视', icon: <Eye size={14} /> },
