@@ -1,0 +1,6 @@
+{
+  "name": "立方体三视图教学示例",
+  "description": "一个用于小学数学教学的互动课件，展示单位立方体的正视图、右视图和俯视图。",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
